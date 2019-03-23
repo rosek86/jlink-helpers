@@ -1,0 +1,41 @@
+JLinkExe -Device NRF52 -Speed 4000 -If SWD -Autoconnect 1
+JLinkExe -Device NRF51 -Speed 4000 -If SWD -Autoconnect 1
+
+JLinkExe -Device NRF52 -Speed 4000 -If SWD -Ip 192.168.1.222 -Autoconnect 1
+JLinkExe -Device NRF52 -Speed 4000 -If SWD -SelectEmuBySN 683275872 -RTTTelnetPort 9100 -Autoconnect 1
+
+JLinkRTTLogger -Device NRF52 -speed 4000 -if SWD -ip 192.168.1.222 -RTTChannel 0
+JLinkRTTClient -RTTTelnetPort 9100
+
+JLinkExe -device STM32F411RE -speed 4000 -if SWD
+connect
+r
+erase
+loadbin file.bin, 0x08000000
+r
+g
+
+JLinkExe -device ATSAMD21E18 -speed 4000 -if SWD -ip 192.168.1.222 -AutoConnect 1
+r
+erase
+loadfile "firmware.hex"
+r
+g
+
+JLinkExe -device CYPD21xxx -speed 4000 -if SWD
+
+JLinkExe -device ATSAMD11D14AM -speed 2700 -if SWD -ip 192.168.1.222
+connect
+r
+erase
+loadbin firmware.bin, 0x0
+r
+exit
+
+Ozone:
+Project.AddFileAlias
+Project.AddPathSubstitute
+
+nrfjprog:
+nrfjprog --family NRF51 --program firmware.hex --chiperase --verify
+
