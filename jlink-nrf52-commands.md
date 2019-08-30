@@ -1,3 +1,5 @@
+## Drive GPIO
+
 - 0x50000518 - DIRSET (P0) - set GPIO as output
 - 0x50000818 - DIRSET (P1) - set GPIO as output
 
@@ -11,3 +13,16 @@ w4 0x50000504, 0x12008000 # OUT    (P0), hex(0b00010010_00000000_10000000_000000
 w4 0x50000804, 0x00000000 # OUT    (P1), hex(0b00000000_00000000_00000000_00000000) = 0x00000000
 ```
 
+## Select REG0 voltage
+
+```
+w4 0x10001304, X
+X:
+0 //1.8 V
+1 //2.1 V
+2 //2.4 V
+3 //2.7 V
+4 //3.0 V
+5 //3.3 V
+7 //Default voltage: 1.8 V
+```
